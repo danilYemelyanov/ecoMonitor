@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoMonitor</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="top-header">
+      <div class="top-header__inner">
+        <div class="brand">
+          EcoMonitor
+          <span class="brand-glow"></span>
+        </div>
+        <div class="subtitle">Гражданский экологический мониторинг</div>
+      </div>
+      <div class="header-scan"></div>
+    </header>
+
+    <nav class="tabs-bar">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-input">Ввод данных</button>
+        <button class="tab-btn" data-tab="tab-analysis">Анализ</button>
+        <button class="tab-btn" data-tab="tab-reports">Отчёты</button>
+      </div>
+    </nav>
+
+    <main class="page">
+      <section id="tab-input" class="panel active">
+        <h2 class="panel-title">Ввод экологических данных</h2>
+
+        <form id="reportForm" class="form">
+          <div class="form-row">
+            <label class="field">
+              <span class="field-label">Место (район)</span>
+              <select id="place" required>
+                <option value="">Выберите район</option>
+                <option value="Копай">Копай</option>
+                <option value="Подгора">Подгора</option>
+                <option value="Заречный">Заречный</option>
+                <option value="20-й микрорайон">20-й микрорайон</option>
+                <option value="Жас Оркен">Жас Оркен</option>
+                <option value="Береке">Береке</option>
+                <option value="Хромзавод">Хромзавод</option>
+                <option value="Центр">Центр</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field-label">Тип проблемы</span>
+              <select id="problemType" required>
+                <option value="">Выберите тип</option>
+                <option value="Мусор">Мусор</option>
+                <option value="Шум">Шум</option>
+                <option value="Качество воздуха">Качество воздуха</option>
+                <option value="Качество воды">Качество воды</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label class="field">
+              <span class="field-label">Уровень (1–100)</span>
+              <input
+                id="level"
+                type="number"
+                min="1"
+                max="100"
+                placeholder="1–100"
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span class="field-label">Дата</span>
+              <input id="date" type="date" required />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Комментарий</span>
+            <textarea
+              id="comment"
+              placeholder="Комментарий (необязательно)"
+            ></textarea>
+          </label>
+
+          <button class="btn-primary" type="submit">Сохранить</button>
+        </form>
+      </section>
+
+      <section id="tab-analysis" class="panel">
+        <h2 class="panel-title">Анализ данных</h2>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Количество записей</div>
+            <div class="stat-value" id="count">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">Средний уровень загрязнения</div>
+            <div class="stat-value avg-value ok" id="avg">0.0</div>
+            <div class="avg-scale">
+              Зелёный: 1–33 • Жёлтый: 34–66 • Красный: 67–100
+            </div>
+          </div>
+        </div>
+
+        <div class="hint">
+          <div class="hint-title">Рекомендации</div>
+          <ul id="recommendations" class="recs"></ul>
+        </div>
+      </section>
+
+      <section id="tab-reports" class="panel">
+        <h2 class="panel-title">Отчёты</h2>
+
+        <div class="filters">
+          <label class="filter">
+            <span class="filter-label">Тип проблемы:</span>
+            <select id="filterType">
+              <option value="Все">Все</option>
+              <option value="Мусор">Мусор</option>
+              <option value="Шум">Шум</option>
+              <option value="Качество воздуха">Качество воздуха</option>
+              <option value="Качество воды">Качество воды</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span class="filter-label">Уровень загрязнения:</span>
+            <select id="filterLevel">
+              <option value="Все">Все</option>
+              <option value="low">Низкий (1–33)</option>
+              <option value="mid">Средний (34–66)</option>
+              <option value="high">Высокий (67–100)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-wrap">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Место</th>
+                <th>Тип</th>
+                <th>Уровень</th>
+                <th>Дата</th>
+                <th>Комментарий</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Данные сохраняются в браузере (LocalStorage) и не отправляются в интернет.
+    </footer>
+  </body>
+</html>
